@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>營運部 AI 分享會 - 動畫簡報</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 全局設定 --- */
+        :root {
+            --bg-color: #1a1a2e;
+            --primary-color: #e94560;
+            --secondary-color: #16213e;
+            --text-color: #e0e0e0;
+            --node-bg: #2c3e50;
+            --accent-glow: rgba(233, 69, 96, 0.7);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- 簡報主容器與畫布 --- */
+        #presentation-viewport {
+            width: 100%;
+            height: 100%;
+        }
+
+        #canvas {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        /* --- 每一個步驟 (投影片) 的樣式 --- */
+        .step {
+            position: absolute;
+            width: 900px;
+            padding: 40px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            text-align: center;
+        }
+
+        .step.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- 標題與內容樣式 --- */
+        .step h1 {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .step h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .step p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .feature-list {
+            display: flex; 
+            justify-content: space-around; 
+            margin-top: 50px; 
+            text-align: left;
+        }
+        .feature-list div {
+            flex-basis: 30%;
+        }
+        .feature-list h3 {
+            color: var(--primary-color);
+        }
+
+
+        /* --- 特殊動畫元素 --- */
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .icon-container svg {
+            width: 80px;
+            height: 80px;
+            fill: var(--text-color);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        
+        /* 痛點匯集動畫 */
+        #pain-points.active .icon-container svg:nth-child(1) { transform: translateX(200px) translateY(50px) rotate(-15deg); }
+        #pain-points.active .icon-container svg:nth-child(2) { transform: translateY(-30px) rotate(5deg); }
+        #pain-points.active .icon-container svg:nth-child(3) { transform: translateX(-200px) translateY(50px) rotate(15deg); }
+        
+        #solution.active .icon-container svg {
+            transform: translateX(0) translateY(0) rotate(0deg) scale(0);
+            opacity: 0;
+        }
+
+        .n8n-logo {
+            width: 150px;
+            height: 150px;
+            opacity: 0;
+            transform: scale(0.2);
+            transition: opacity 1s 0.5s, transform 1s 0.5s;
+        }
+        #solution.active .n8n-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- 動態流程圖樣式 --- */
+        .workflow-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .node {
+            background-color: var(--node-bg);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: node-fade-in 0.5s forwards;
+        }
+        
+        #workflow.active .node1 { animation-delay: 0.5s; }
+        #workflow.active .node2 { animation-delay: 1.5s; }
+        #workflow.active .node3 { animation-delay: 2.5s; }
+
+        @keyframes node-fade-in {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .connector {
+            position: absolute;
+            height: 4px;
+            background-color: var(--primary-color);
+            z-index: 5;
+            transform-origin: left center;
+            transform: scaleX(0);
+        }
+
+        #workflow.active .connector1 {
+            width: 150px;
+            left: calc(50% - 250px);
+            animation: draw-line 1s forwards 1s;
+        }
+        #workflow.active .connector2 {
+            width: 150px;
+            left: calc(50% + 100px);
+            animation: draw-line 1s forwards 2s;
+        }
+        
+        .connector::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: flow 1.5s linear infinite;
+            opacity: 0;
+        }
+        #workflow.active .connector1::after { animation-delay: 1s; }
+        #workflow.active .connector2::after { animation-delay: 2s; }
+        #workflow.active .connector::after {
+            opacity: 1;
+        }
+
+
+        @keyframes draw-line {
+            to { transform: scaleX(1); }
+        }
+        @keyframes flow {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* --- 導航提示 --- */
+        .controls-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            animation: hint-fade-in 2s ease-in-out;
+        }
+        @keyframes hint-fade-in {
+            0% { opacity: 0; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="presentation-viewport">
+        <div id="canvas">
+
+            <!-- Slide 1: 封面 -->
+            <div class="step" id="title" data-x="0" data-y="0" data-scale="1">
+                <h1>營運部 AI 分享會</h1>
+                <p>解放你的重複工作，把時間留給創新！</p>
+            </div>
+
+            <!-- Slide 3: 痛點 -->
+            <div class="step" id="pain-points" data-x="1200" data-y="0" data-scale="1">
+                <h2>您的日常工作，是否也像這樣？</h2>
+                <div class="icon-container">
+                    <!-- Icon for copy-paste -->
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
+                    <!-- Icon for manual notification -->
+                    <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"></path></svg>
+                    <!-- Icon for data consolidation -->
+                    <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
+                </div>
+                <p style="margin-top: 50px;">手動複製貼上、重複發送通知、跨系統整理報表...<br>耗時、繁瑣、且容易出錯！</p>
+            </div>
+
+            <!-- Slide 5: 解決方案 -->
+            <div class="step" id="solution" data-x="1200" data-y="0" data-scale="2.5">
+                <h2>隆重介紹：n8n</h2>
+                <div class="icon-container">
+                    <!-- These icons will be animated out -->
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
+                    <!-- n8n logo SVG -->
+                    <svg class="n8n-logo" viewBox="0 0 128 128"><path fill="#E94560" d="M112.2 128l-46.4-46.4-19.4 19.4L0 46.4 46.4 0l19.4 19.4L112.2 0l15.8 15.8-46.4 46.4 46.4 46.4z"></path></svg>
+                </div>
+                <p>一個開源、視覺化的工作流程自動化工具</p>
+            </div>
+
+            <!-- Slide 6 & 7: 什麼是 n8n -->
+            <div class="step" id="what-is-n8n" data-x="1200" data-y="1000" data-scale="1.5">
+                <h2>為什麼選擇 n8n？</h2>
+                <div class="feature-list">
+                    <div><h3>視覺化節點</h3><p>像堆樂高積木，用拖拉點選的方式就能建立流程，幾乎不需要寫程式碼。</p></div>
+                    <div><h3>彈性與可控</h3><p>對初學者友善，同時也為開發者保留了寫入程式碼的彈性。</p></div>
+                    <div><h3>資料安全</h3><p>可部署在公司自己的伺服器上，所有敏感資料都在內部流動，確保資料不外流。</p></div>
+                </div>
+            </div>
+
+            <!-- Slide 8: 運作方式 -->
+            <div class="step" id="workflow" data-x="0" data-y="1000" data-scale="1">
+                <h2>就像這樣，簡單明瞭</h2>
+                <div class="workflow-container">
+                    <div class="node node1" style="position: absolute; left: calc(50% - 350px);">Google 表單</div>
+                    <div class="connector connector1"></div>
+                    <div class="node node2" style="position: absolute; left: calc(50% - 100px);">Google Sheets</div>
+                    <div class="connector connector2"></div>
+                    <div class="node node3" style="position: absolute; left: calc(50% + 250px);">Slack 通知</div>
+                </div>
+                <p style="margin-top: 50px;">當一個**觸發 (Trigger)** 發生時，資料就會像電流一樣，<br>流經您設定好的一個個**節點 (Node)**，自動完成所有任務。</p>
+            </div>
+            
+            <!-- Slide 12: 擴展應用 -->
+            <div class="step" id="possibilities" data-x="-1200" data-y="1000" data-scale="2">
+                <h2>不只如此，n8n 還能做更多！</h2>
+                <p>定時執行 (Cron) | 邏輯判斷 (IF) | 程式碼注入 (Code)</p>
+                <p style="margin-top: 30px;">從每日自動寄送報表、每週同步數據，到訂單金額判斷，<br>只有想不到，沒有做不到！</p>
+            </div>
+
+            <!-- Slide 13 & 14: Q&A -->
+            <div class="step" id="qa" data-x="-1200" data-y="0" data-scale="1">
+                <h1>Q&A</h1>
+                <h2>輪到你了！</h2>
+                <p>在你的工作中，有什麼地方可以用 n8n 來幫忙？</p>
+            </div>
+
+            <!-- Slide 16: 結尾 -->
+            <div class="step" id="end" data-x="0" data-y="0" data-scale="1">
+                <h1>Thanks!</h1>
+                <p>Automate the boring, Innovate the future.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="controls-hint">
+        使用鍵盤 ← → 鍵來導航
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('canvas');
+            const steps = Array.from(document.querySelectorAll('.step'));
+            let currentStep = 0;
+
+            function goTo(stepIndex) {
+                if (stepIndex < 0 || stepIndex >= steps.length) {
+                    return;
+                }
+
+                steps.forEach((step, index) => {
+                    step.classList.toggle('active', index === stepIndex);
+                });
+
+                const targetStep = steps[stepIndex];
+                const { x = 0, y = 0, scale = 1 } = targetStep.dataset;
+
+                const targetX = -parseFloat(x);
+                const targetY = -parseFloat(y);
+                const scaleFactor = 1 / parseFloat(scale);
+
+                canvas.style.transform = `scale(${scaleFactor}) translate(${targetX}px, ${targetY}px)`;
+                
+                currentStep = stepIndex;
+            }
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight') {
+                    goTo(currentStep + 1);
+                } else if (event.key === 'ArrowLeft') {
+                    goTo(currentStep - 1);
+                }
+            });
+
+            goTo(0);
+        });
+    </script>
+</body>
+</html>
