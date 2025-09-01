@@ -3,356 +3,653 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>營運部 AI 分享會 - 動畫簡報</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>n8n 營運部 AI 分享會</title>
     <style>
-        /* --- 全局設定 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+
         :root {
-            --bg-color: #1a1a2e;
-            --primary-color: #e94560;
-            --secondary-color: #16213e;
-            --text-color: #e0e0e0;
-            --node-bg: #2c3e50;
-            --accent-glow: rgba(233, 69, 96, 0.7);
+            --n8n-orange: #FF4F24;
+            --dark-grey: #333333;
+            --light-grey: #f0f0f0;
+            --white: #ffffff;
+            --copy-paste-bg: #e0e0e0;
+            --copy-paste-window: #ffffff;
+            --copy-paste-highlight: #ffe0d9;
+            --chat-bubble-bg: #e9e9eb;
         }
 
         body, html {
             margin: 0;
             padding: 0;
-            width: 100vw;
-            height: 100vh;
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- 簡報主容器與畫布 --- */
-        #presentation-viewport {
-            width: 100%;
             height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
         }
 
-        #canvas {
+        .presentation-container {
             position: relative;
             width: 100%;
             height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+            overflow: hidden;
         }
 
-        /* --- 每一個步驟 (投影片) 的樣式 --- */
-        .step {
+        .slide {
             position: absolute;
-            width: 900px;
-            padding: 40px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            padding: 5vmin;
             box-sizing: border-box;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .slide.active {
+            transform: translateX(0);
+            z-index: 1;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+        
+        .slide-content {
+            width: 100%;
+            max-width: 1200px;
             text-align: center;
         }
-
-        .step.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* --- 標題與內容樣式 --- */
-        .step h1 {
-            font-size: 4rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .step h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .step p {
-            font-size: 1.2rem;
-            line-height: 1.8;
+        
+        /* Slide Specific Styles */
+        .slide.title-slide {
+            background-color: var(--light-grey);
+            color: var(--dark-grey);
         }
         
-        .feature-list {
-            display: flex; 
-            justify-content: space-around; 
-            margin-top: 50px; 
-            text-align: left;
-        }
-        .feature-list div {
-            flex-basis: 30%;
-        }
-        .feature-list h3 {
-            color: var(--primary-color);
-        }
-
-
-        /* --- 特殊動畫元素 --- */
-        .icon-container {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 40px;
-            position: relative;
-        }
-
-        .icon-container svg {
-            width: 80px;
-            height: 80px;
-            fill: var(--text-color);
-            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        .slide h1 {
+            font-size: clamp(2rem, 8vmin, 5rem);
+            color: var(--dark-grey);
+            margin: 0;
         }
         
-        /* 痛點匯集動畫 */
-        #pain-points.active .icon-container svg:nth-child(1) { transform: translateX(200px) translateY(50px) rotate(-15deg); }
-        #pain-points.active .icon-container svg:nth-child(2) { transform: translateY(-30px) rotate(5deg); }
-        #pain-points.active .icon-container svg:nth-child(3) { transform: translateX(-200px) translateY(50px) rotate(15deg); }
+        .slide.title-slide h1 {
+             color: var(--dark-grey);
+        }
+
+        .slide h2 {
+            font-size: clamp(1.5rem, 6vmin, 3.5rem);
+            color: var(--n8n-orange);
+            margin: 0 0 2rem 0;
+        }
         
-        #solution.active .icon-container svg {
-            transform: translateX(0) translateY(0) rotate(0deg) scale(0);
-            opacity: 0;
+        .slide .subtitle {
+            font-size: clamp(1rem, 4vmin, 2.5rem);
+            color: var(--n8n-orange);
+            margin-top: 1rem;
         }
 
-        .n8n-logo {
-            width: 150px;
-            height: 150px;
-            opacity: 0;
-            transform: scale(0.2);
-            transition: opacity 1s 0.5s, transform 1s 0.5s;
+        .slide p {
+            font-size: clamp(1rem, 2.5vmin, 1.5rem);
+            line-height: 1.6;
         }
-        #solution.active .n8n-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* --- 動態流程圖樣式 --- */
-        .workflow-container {
-            position: relative;
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
             width: 100%;
-            height: 300px;
-            margin-top: 50px;
+            margin-top: 2rem;
+        }
+
+        .grid-item {
+            background-color: var(--light-grey);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--n8n-orange);
+        }
+        
+        .grid-item h3 {
+            margin-top:0;
+            color: var(--n8n-orange);
+        }
+        
+        .columns {
+            display: flex;
+            gap: 2rem;
+            width: 100%;
+            align-items: flex-start;
+        }
+        
+        .column {
+            flex: 1;
+        }
+
+        .flowchart {
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .flow-box {
+            background-color: var(--light-grey);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--n8n-orange);
         }
 
-        .node {
-            background-color: var(--node-bg);
-            padding: 15px 30px;
-            border-radius: 10px;
-            border: 2px solid var(--primary-color);
-            box-shadow: 0 0 20px var(--accent-glow);
-            z-index: 10;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: node-fade-in 0.5s forwards;
-        }
-        
-        #workflow.active .node1 { animation-delay: 0.5s; }
-        #workflow.active .node2 { animation-delay: 1.5s; }
-        #workflow.active .node3 { animation-delay: 2.5s; }
-
-        @keyframes node-fade-in {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .connector {
-            position: absolute;
-            height: 4px;
-            background-color: var(--primary-color);
-            z-index: 5;
-            transform-origin: left center;
-            transform: scaleX(0);
-        }
-
-        #workflow.active .connector1 {
-            width: 150px;
-            left: calc(50% - 250px);
-            animation: draw-line 1s forwards 1s;
-        }
-        #workflow.active .connector2 {
-            width: 150px;
-            left: calc(50% + 100px);
-            animation: draw-line 1s forwards 2s;
-        }
-        
-        .connector::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, #fff, transparent);
-            animation: flow 1.5s linear infinite;
-            opacity: 0;
-        }
-        #workflow.active .connector1::after { animation-delay: 1s; }
-        #workflow.active .connector2::after { animation-delay: 2s; }
-        #workflow.active .connector::after {
-            opacity: 1;
-        }
-
-
-        @keyframes draw-line {
-            to { transform: scaleX(1); }
-        }
-        @keyframes flow {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        /* --- 導航提示 --- */
-        .controls-hint {
+        .nav-controls {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            padding: 10px 20px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            animation: hint-fade-in 2s ease-in-out;
+            z-index: 10;
         }
-        @keyframes hint-fade-in {
-            0% { opacity: 0; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
+        .nav-controls button {
+            background-color: var(--n8n-orange);
+            color: var(--white);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .columns {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for the logo */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulsing-logo {
+            width: 150px;
+            margin-top: 40px;
+            animation: pulse 2.5s infinite ease-in-out;
+        }
+
+        /* --- Animations for Slide 3 --- */
+
+        /* 1. Copy-Paste Animation */
+        .copy-paste-container {
+            width: 100%;
+            height: 90px;
+            position: relative;
+            margin: 0 auto 10px;
+        }
+        .cp-window {
+            position: absolute;
+            width: 45%;
+            height: 100%;
+            background-color: var(--copy-paste-window);
+            border: 2px solid var(--copy-paste-bg);
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .cp-window.left { left: 0; }
+        .cp-window.right { right: 0; }
+        .cp-text-line {
+            width: 70%;
+            height: 8px;
+            background-color: var(--copy-paste-bg);
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .cp-text-line.short { width: 50%; }
+
+        .cp-data {
+            position: absolute;
+            background-color: var(--copy-paste-highlight);
+            width: 80%;
+            height: 12px;
+            border-radius: 4px;
+            top: 32px;
+            left: 10px;
+        }
+        .cp-data.source {
+            animation: copy-source 6s infinite ease-in-out;
+        }
+        .cp-data.destination {
+            opacity: 0; /* Initially hidden */
+            animation: paste-destination 6s infinite ease-in-out;
+        }
+        
+        .cp-cursor {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-image: url('https://i.postimg.cc/Tw4qptS1/unnamed-5-removebg-preview.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 10;
+            animation: copy-paste-cursor 6s infinite ease-in-out;
+        }
+
+        @keyframes copy-paste-cursor {
+            0%, 100% { top: 50px; left: 50%;}
+            15% { top: 32px; left: 18%;}
+            25%, 35% { top: 32px; left: 18%;}
+            60% { top: 32px; left: 68%;}
+            70%, 90% { top: 32px; left: 68%;}
+        }
+
+        @keyframes copy-source {
+            0%, 25% { opacity: 1; }
+            35%, 100% { opacity: 0; }
+        }
+        @keyframes paste-destination {
+            0%, 60% { opacity: 0; }
+            70%, 100% { opacity: 1; }
+        }
+        
+        /* 2. Notification Chat Animation */
+        .anim-icon-wrapper {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .chat-anim-container {
+            width: 80%;
+            height: 100%;
+            position: relative;
+        }
+        .chat-bubble {
+            position: absolute;
+            background-color: var(--chat-bubble-bg);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            opacity: 0;
+            animation: pop-in 3.5s infinite ease-in-out;
+        }
+        .chat-bubble:nth-child(1) {
+            top: 0;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        .chat-bubble:nth-child(2) {
+            top: 35%;
+            left: 30%;
+            animation-delay: 0.7s;
+        }
+        .chat-bubble:nth-child(3) {
+            top: 70%;
+            left: 20%;
+            animation-delay: 1.4s;
+        }
+        @keyframes pop-in {
+            0% { opacity: 0; transform: scale(0.8); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.8); }
+        }
+        
+        /* 3. Clock Animation */
+        .anim-icon-clock .hour-hand,
+        .anim-icon-clock .minute-hand {
+            transform-origin: center;
+        }
+        .anim-icon-clock .hour-hand {
+            animation: spin-hand 48s linear infinite;
+        }
+        .anim-icon-clock .minute-hand {
+            animation: spin-hand 12s linear infinite;
+        }
+
+        @keyframes spin-hand {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 4. Report Bar Chart Animation */
+        .anim-icon-report .bar1,
+        .anim-icon-report .bar2,
+        .anim-icon-report .bar3 {
+            transform-origin: bottom;
+            animation-duration: 2.5s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-out;
+        }
+        .anim-icon-report .bar1 { animation-name: grow-bar1; animation-delay: 0.2s; }
+        .anim-icon-report .bar2 { animation-name: grow-bar2; animation-delay: 0.4s; }
+        .anim-icon-report .bar3 { animation-name: grow-bar3; animation-delay: 0.6s; }
+
+        @keyframes grow-bar1 {
+            0%, 20%, 100% { transform: scaleY(0.6); }
+            50% { transform: scaleY(1); }
+        }
+        @keyframes grow-bar2 {
+            0%, 20%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.2); }
+        }
+        @keyframes grow-bar3 {
+            0%, 20%, 100% { transform: scaleY(0.7); }
+            50% { transform: scaleY(0.9); }
         }
 
     </style>
 </head>
 <body>
 
-    <div id="presentation-viewport">
-        <div id="canvas">
-
-            <!-- Slide 1: 封面 -->
-            <div class="step" id="title" data-x="0" data-y="0" data-scale="1">
+    <div class="presentation-container">
+        
+        <!-- Slide 1: 封面頁 -->
+        <section class="slide title-slide">
+            <div class="slide-content">
                 <h1>營運部 AI 分享會</h1>
-                <p>解放你的重複工作，把時間留給創新！</p>
+                <p class="subtitle">解放你的重複工作，把時間留給創新！</p>
+                 <img class="pulsing-logo" src="https://i.postimg.cc/cHw3FFjv/N8n-logo-new-svg.png" alt="n8n Logo">
             </div>
+        </section>
 
-            <!-- Slide 3: 痛點 -->
-            <div class="step" id="pain-points" data-x="1200" data-y="0" data-scale="1">
+        <!-- Slide 2: 今日議程 -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2>Agenda</h2>
+                <div class="grid-container" style="text-align: left; grid-template-columns: 1fr;">
+                    <div class="grid-item"><h3>Part 1: 為什麼我們需要它？</h3></div>
+                    <div class="grid-item"><h3>Part 2: 核心概念與應用</h3></div>
+                    <div class="grid-item"><h3>Part 3: Live Demo</h3></div>
+                    <div class="grid-item"><h3>Part 4: Q&A</h3></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 3: 故事的開頭 (Updated with 4 animations) -->
+        <section class="slide">
+            <div class="slide-content">
                 <h2>您的日常工作，是否也像這樣？</h2>
-                <div class="icon-container">
-                    <!-- Icon for copy-paste -->
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
-                    <!-- Icon for manual notification -->
-                    <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"></path></svg>
-                    <!-- Icon for data consolidation -->
-                    <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
+                <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="grid-item">
+                        <div class="copy-paste-container">
+                            <div class="cp-window left">
+                                <div class="cp-text-line"></div>
+                                <div class="cp-text-line short"></div>
+                                <div class="cp-data source"></div>
+                            </div>
+                            <div class="cp-window right">
+                                <div class="cp-text-line"></div>
+                                <div class="cp-text-line short"></div>
+                                <div class="cp-data destination"></div>
+                            </div>
+                            <div class="cp-cursor"></div>
+                        </div>
+                        <h3>資訊孤島</h3>
+                        <p>大量複製貼上</p>
+                    </div>
+                    <div class="grid-item">
+                        <div class="anim-icon-wrapper">
+                           <div class="chat-anim-container">
+                                <div class="chat-bubble">@David 專案進度？</div>
+                                <div class="chat-bubble">@Tina 報表好了嗎？</div>
+                                <div class="chat-bubble">@All 記得填回報</div>
+                           </div>
+                        </div>
+                        <h3>通知轟炸</h3>
+                        <p>重複發送相同通知</p>
+                    </div>
+                    <div class="grid-item">
+                        <div class="anim-icon-wrapper">
+                            <svg class="anim-icon-clock" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 16 16">
+                                <circle cx="8" cy="8" r="7.5" fill="none" stroke="currentColor" stroke-width="1"/>
+                                <g class="hour-hand">
+                                    <rect x="7.5" y="4.5" width="1" height="4" rx="0.5" fill="currentColor"/>
+                                </g>
+                                <g class="minute-hand">
+                                    <rect x="7.5" y="2" width="1" height="6.5" rx="0.5" fill="currentColor"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <h3>等待與延遲</h3>
+                        <p>平台間流程中斷與等待</p>
+                    </div>
+                    <div class="grid-item">
+                        <div class="anim-icon-wrapper">
+                            <svg class="anim-icon-report" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 16 16">
+                                <rect class="bar1" x="1" y="6" width="3" height="10" fill="currentColor"/>
+                                <rect class="bar2" x="6" y="2" width="3" height="14" fill="currentColor"/>
+                                <rect class="bar3" x="11" y="9" width="3" height="7" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <h3>手動製作報表</h3>
+                        <p>整理跨平台數據</p>
+                    </div>
                 </div>
-                <p style="margin-top: 50px;">手動複製貼上、重複發送通知、跨系統整理報表...<br>耗時、繁瑣、且容易出錯！</p>
             </div>
+        </section>
 
-            <!-- Slide 5: 解決方案 -->
-            <div class="step" id="solution" data-x="1200" data-y="0" data-scale="2.5">
-                <h2>隆重介紹：n8n</h2>
-                <div class="icon-container">
-                    <!-- These icons will be animated out -->
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
-                    <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"></path></svg>
-                    <svg viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"></path></svg>
-                    <!-- n8n logo SVG -->
-                    <svg class="n8n-logo" viewBox="0 0 128 128"><path fill="#E94560" d="M112.2 128l-46.4-46.4-19.4 19.4L0 46.4 46.4 0l19.4 19.4L112.2 0l15.8 15.8-46.4 46.4 46.4 46.4z"></path></svg>
+        <!-- Slide 4: 這些事的共通點是... -->
+        <section class="slide">
+            <div class="slide-content">
+                <h1 style="color: var(--n8n-orange);">耗時、繁瑣、且中斷了思考的連續性！</h1>
+                <p>這些重複性的任務不僅佔據了寶貴的工作時間... 我們值得更聰明、更流暢的工作方式。</p>
+            </div>
+        </section>
+
+        <!-- Slide 5: 解放雙手的神器：n8n -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left;">
+                    <h2>n8n 是什麼？</h2>
+                    <h3 style="color: var(--dark-grey);">一個開源、視覺化的工作流程自動化工具</h3>
+                    <p>簡單來說，n8n 就像一個數位黏著劑，可以幫我們把各種不同的網路服務 (APP)、資料庫、API 串接起來，讓它們按照我們設計的劇本，自動為我們工作。</p>
                 </div>
-                <p>一個開源、視覺化的工作流程自動化工具</p>
-            </div>
-
-            <!-- Slide 6 & 7: 什麼是 n8n -->
-            <div class="step" id="what-is-n8n" data-x="1200" data-y="1000" data-scale="1.5">
-                <h2>為什麼選擇 n8n？</h2>
-                <div class="feature-list">
-                    <div><h3>視覺化節點</h3><p>像堆樂高積木，用拖拉點選的方式就能建立流程，幾乎不需要寫程式碼。</p></div>
-                    <div><h3>彈性與可控</h3><p>對初學者友善，同時也為開發者保留了寫入程式碼的彈性。</p></div>
-                    <div><h3>資料安全</h3><p>可部署在公司自己的伺服器上，所有敏感資料都在內部流動，確保資料不外流。</p></div>
+                <div class="column">
+                     <img src="https://i.postimg.cc/cHw3FFjv/N8n-logo-new-svg.png" alt="n8n Logo" style="width:250px;">
                 </div>
             </div>
+        </section>
 
-            <!-- Slide 8: 運作方式 -->
-            <div class="step" id="workflow" data-x="0" data-y="1000" data-scale="1">
-                <h2>就像這樣，簡單明瞭</h2>
-                <div class="workflow-container">
-                    <div class="node node1" style="position: absolute; left: calc(50% - 350px);">Google 表單</div>
-                    <div class="connector connector1"></div>
-                    <div class="node node2" style="position: absolute; left: calc(50% - 100px);">Google Sheets</div>
-                    <div class="connector connector2"></div>
-                    <div class="node node3" style="position: absolute; left: calc(50% + 250px);">Slack 通知</div>
+        <!-- Slide 6: 核心術語解釋 -->
+        <section class="slide">
+             <div class="slide-content">
+                <h2>搞懂這 4 個詞，你就學會了 n8n</h2>
+                <div class="grid-container">
+                    <div class="grid-item"><h3>Workflow (工作流程)</h3><p>整個自動化的劇本。</p></div>
+                    <div class="grid-item"><h3>Node (節點)</h3><p>劇本中的一個步驟。</p></div>
+                    <div class="grid-item"><h3>Trigger (觸發器)</h3><p>劇本的開頭。</p></div>
+                    <div class="grid-item"><h3>Credentials (憑證)</h3><p>操作其他APP的鑰匙。</p></div>
                 </div>
-                <p style="margin-top: 50px;">當一個**觸發 (Trigger)** 發生時，資料就會像電流一樣，<br>流經您設定好的一個個**節點 (Node)**，自動完成所有任務。</p>
             </div>
-            
-            <!-- Slide 12: 擴展應用 -->
-            <div class="step" id="possibilities" data-x="-1200" data-y="1000" data-scale="2">
-                <h2>不只如此，n8n 還能做更多！</h2>
-                <p>定時執行 (Cron) | 邏輯判斷 (IF) | 程式碼注入 (Code)</p>
-                <p style="margin-top: 30px;">從每日自動寄送報表、每週同步數據，到訂單金額判斷，<br>只有想不到，沒有做不到！</p>
-            </div>
+        </section>
 
-            <!-- Slide 13 & 14: Q&A -->
-            <div class="step" id="qa" data-x="-1200" data-y="0" data-scale="1">
-                <h1>Q&A</h1>
+        <!-- Slide 7: 認識幾個關鍵節點 -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2>我們的自動化瑞士刀</h2>
+                <div class="grid-container">
+                    <div class="grid-item"><h3>Webhook</h3><p>n8n的「耳朵」，接收即時訊號的萬用起點。</p></div>
+                    <div class="grid-item"><h3>Google Chat</h3><p>n8n的「嘴巴」，發送即時通知到內部群組。</p></div>
+                    <div class="grid-item"><h3>Cron (排程)</h3><p>n8n的「鬧鐘」，可以定時自動啟動流程。</p></div>
+                    <div class="grid-item"><h3>IF (條件判斷)</h3><p>n8n的「大腦」，讓流程學會思考與判斷。</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: 公司內部應用案例 1 -->
+        <section class="slide">
+            <div class="slide-content" style="text-align: left;">
+                <h2>案例分享：AI 客服回覆小助手</h2>
+                <div class="columns">
+                    <div class="column">
+                        <h3>痛點：</h3>
+                        <p>客服人員需要花費大量時間撰寫重複性高、但又需要微調的回覆。</p>
+                        <h3>價值：</h3>
+                        <p>大幅縮短回覆時間，並確保回覆的專業度與一致性。</p>
+                    </div>
+                    <div class="column">
+                        <h3>n8n 流程:</h3>
+                        <div class="flowchart" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                            <div class="flow-box" style="background-color: #ffe0d9;">觸發 (Webhook)</div>
+                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
+                            <div class="flow-box">處理 (AI + Code)</div>
+                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
+                            <div class="flow-box" style="background-color: #d9f5e5;">動作 (Google Chat)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: 公司內部應用案例 2 -->
+        <section class="slide">
+            <div class="slide-content" style="text-align: left;">
+                <h2>案例分享：24 小時新人教官</h2>
+                 <div class="columns">
+                    <div class="column">
+                        <h3>痛點：</h3>
+                        <p>新進同仁有大量關於內部流程的問題，常需中斷資深同仁的工作來詢問。</p>
+                        <h3>價值：</h3>
+                        <p>提供新人即時的幫助，同時解放資深同仁的時間，讓知識真正流通起來。</p>
+                    </div>
+                    <div class="column">
+                        <h3>n8n 流程:</h3>
+                        <div class="flowchart" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                            <div class="flow-box" style="background-color: #ffe0d9;">觸發 (Google Chat)</div>
+                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
+                            <div class="flow-box">處理 (AI + 知識庫)</div>
+                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
+                            <div class="flow-box" style="background-color: #d9f5e5;">動作 (Google Chat)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Live Demo 時間！ -->
+        <section class="slide title-slide" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=2070); background-size: cover;">
+            <div class="slide-content">
+                <h1 style="font-size: 5rem; color: white;">Live Demo 時間！</h1>
+                <p class="subtitle" style="color:white; font-size: 2rem;">實作目標：打造一個萬用 Webhook 通知器</p>
+                <h2 style="color: white;">準備好了嗎？ Let's build!</h2>
+            </div>
+        </section>
+
+        <!-- Slide 11: 實作步驟概覽 -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2>跟著我，兩步完成！</h2>
+                <div class="flowchart">
+                    <div class="flow-box" style="padding: 2rem;">
+                        <h3>步驟一</h3>
+                        <p>設定觸發器 (Webhook)</p>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-box" style="padding: 2rem;">
+                        <h3>步驟二</h3>
+                        <p>建立通知動作 (Google Chat)</p>
+                    </div>
+                </div>
+                <p style="margin-top: 3rem; color: #777;">（接下來請切換到 n8n 操作介面...）</p>
+            </div>
+        </section>
+
+        <!-- Slide 12: 腦力激盪時間 -->
+        <section class="slide">
+             <div class="slide-content">
                 <h2>輪到你了！</h2>
-                <p>在你的工作中，有什麼地方可以用 n8n 來幫忙？</p>
+                <p class="subtitle" style="font-size: 2rem;">這個「Webhook 通知器」還能用在哪裡？</p>
+                <div class="grid-container" style="text-align: left;">
+                    <div class="grid-item"><p>伺服器狀態異常時，自動通知維運團隊？</p></div>
+                    <div class="grid-item"><p>電子商務網站有新訂單時，自動通知業務團隊？</p></div>
+                    <div class="grid-item"><p>專案管理工具有新任務完成時，自動在專案頻道慶祝？</p></div>
+                </div>
             </div>
+        </section>
 
-            <!-- Slide 16: 結尾 -->
-            <div class="step" id="end" data-x="0" data-y="0" data-scale="1">
+        <!-- Slide 13: 總結與學習資源 -->
+        <section class="slide">
+            <div class="slide-content" style="text-align: left;">
+                <h2>今天的重點回顧 & 下一步</h2>
+                <div class="grid-container" style="grid-template-columns: 1fr;">
+                    <div class="grid-item"><p><b>自動化思維：</b>開始觀察自己工作中有哪些「固定模式」的重複任務。</p></div>
+                    <div class="grid-item"><p><b>萬用組合：</b>Webhook + Google Chat 是打通內外部資訊的黃金組合。</p></div>
+                    <div class="grid-item"><p><b>內部交流：</b>歡迎在公司 #n8n-heroes 頻道分享你的自動化點子或成品！</p></div>
+                    <div class="grid-item"><p><b>官方文件：</b>docs.n8n.io 是你最好的朋友。</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: 感謝聆聽 -->
+        <section class="slide title-slide">
+            <div class="slide-content">
                 <h1>Thanks!</h1>
-                <p>Automate the boring, Innovate the future.</p>
+                <p class="subtitle" style="font-size: 2.5rem;">Automate the boring, Innovate the future.</p>
+                <p style="margin-top: 4rem;">您可以放上您的姓名或聯絡方式</p>
             </div>
+        </section>
 
-        </div>
     </div>
 
-    <div class="controls-hint">
-        使用鍵盤 ← → 鍵來導航
+    <div class="nav-controls">
+        <button id="prevBtn">←</button>
+        <button id="nextBtn">→</button>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('canvas');
-            const steps = Array.from(document.querySelectorAll('.step'));
-            let currentStep = 0;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
 
-            function goTo(stepIndex) {
-                if (stepIndex < 0 || stepIndex >= steps.length) {
-                    return;
-                }
-
-                steps.forEach((step, index) => {
-                    step.classList.toggle('active', index === stepIndex);
-                });
-
-                const targetStep = steps[stepIndex];
-                const { x = 0, y = 0, scale = 1 } = targetStep.dataset;
-
-                const targetX = -parseFloat(x);
-                const targetY = -parseFloat(y);
-                const scaleFactor = 1 / parseFloat(scale);
-
-                canvas.style.transform = `scale(${scaleFactor}) translate(${targetX}px, ${targetY}px)`;
-                
-                currentStep = stepIndex;
-            }
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'ArrowRight') {
-                    goTo(currentStep + 1);
-                } else if (event.key === 'ArrowLeft') {
-                    goTo(currentStep - 1);
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i === index) {
+                    slide.classList.add('active');
+                } else if (i < index) {
+                    slide.classList.add('prev');
                 }
             });
+        }
 
-            goTo(0);
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
         });
+
+        // Initialize
+        showSlide(currentSlide);
     </script>
 </body>
 </html>
+
