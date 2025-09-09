@@ -114,18 +114,28 @@
             padding: 2rem;
             border-radius: 10px;
             border-left: 5px solid var(--n8n-orange);
+            text-align: left;
         }
         
         .grid-item h3 {
             margin-top:0;
             color: var(--n8n-orange);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .grid-item .icon-svg {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
         }
         
         .columns {
             display: flex;
             gap: 2rem;
             width: 100%;
-            align-items: flex-start;
+            align-items: center; /* Vertically center columns */
         }
         
         .column {
@@ -173,6 +183,9 @@
             .columns {
                 flex-direction: column;
             }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Animation for the logo */
@@ -189,6 +202,13 @@
         }
 
         /* --- Animations for Slide 3 --- */
+        .anim-icon-wrapper {
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
 
         /* 1. Copy-Paste Animation */
         .copy-paste-container {
@@ -264,13 +284,6 @@
         }
         
         /* 2. Notification Chat Animation */
-        .anim-icon-wrapper {
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
         .chat-anim-container {
             width: 80%;
             height: 100%;
@@ -349,6 +362,21 @@
             0%, 20%, 100% { transform: scaleY(0.7); }
             50% { transform: scaleY(0.9); }
         }
+        
+        .screenshot-placeholder {
+            background-color: var(--light-grey);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 450px;
+            border: 2px dashed #ccc;
+            color: #999;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2rem;
+        }
+
 
     </style>
 </head>
@@ -444,21 +472,18 @@
         <!-- Slide 4: 這些事的共通點是... -->
         <section class="slide">
             <div class="slide-content">
-                <h1 style="color: var(--n8n-orange);">耗時、繁瑣、且中斷了思考的連續性！</h1>
+                <h1 style="color: var(--n8n-orange); white-space: nowrap;">耗時、繁瑣、且中斷了思考的連續性！</h1>
                 <p>這些重複性的任務不僅佔據了寶貴的工作時間... 我們值得更聰明、更流暢的工作方式。</p>
             </div>
         </section>
 
-        <!-- Slide 5: 解放雙手的神器：n8n -->
+        <!-- Slide 5: 解放雙手的神器：n8n (Text only version) -->
         <section class="slide">
-            <div class="slide-content columns">
-                <div class="column" style="text-align: left;">
+            <div class="slide-content">
+                <div style="text-align: left; max-width: 900px; margin: 0 auto;">
                     <h2>n8n 是什麼？</h2>
                     <h3 style="color: var(--dark-grey);">一個開源、視覺化的工作流程自動化工具</h3>
-                    <p>簡單來說，n8n 就像一個數位黏著劑，可以幫我們把各種不同的網路服務 (APP)、資料庫、API 串接起來，讓它們按照我們設計的劇本，自動為我們工作。</p>
-                </div>
-                <div class="column">
-                     <img src="https://i.postimg.cc/cHw3FFjv/N8n-logo-new-svg.png" alt="n8n Logo" style="width:250px;">
+                    <p>簡單來說，n8n 就像一盒數位樂高積木。每一個「節點 (Node)」就是一塊不同功能的積木 (例如：收信、寫入表格)，我們可以輕易地將這些積木堆疊、串接起來，打造出專屬於我們自己的自動化城堡。</p>
                 </div>
             </div>
         </section>
@@ -467,16 +492,100 @@
         <section class="slide">
              <div class="slide-content">
                 <h2>搞懂這 4 個詞，你就學會了 n8n</h2>
-                <div class="grid-container">
-                    <div class="grid-item"><h3>Workflow (工作流程)</h3><p>整個自動化的劇本。</p></div>
-                    <div class="grid-item"><h3>Node (節點)</h3><p>劇本中的一個步驟。</p></div>
-                    <div class="grid-item"><h3>Trigger (觸發器)</h3><p>劇本的開頭。</p></div>
-                    <div class="grid-item"><h3>Credentials (憑證)</h3><p>操作其他APP的鑰匙。</p></div>
+                <div class="grid-container" style="grid-template-columns: 1fr 1fr;">
+                    <div class="grid-item">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-diagram-3-fill icon-svg" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H11a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 5 7h2.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-3 8A1.5 1.5 0 0 1 4.5 10h1A1.5 1.5 0 0 1 7 11.5v1A1.5 1.5 0 0 1 5.5 14h-1A1.5 1.5 0 0 1 3 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1A1.5 1.5 0 0 1 9 12.5v-1z"/>
+                            </svg>
+                            Workflow (工作流程)
+                        </h3>
+                        <p>整個自動化的腳本。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-bricks icon-svg" viewBox="0 0 16 16">
+                                <path d="M0 .5A.5.5 0 0 1 .5 0h15a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-3zM3 4h2v3H3V4zm5 0h2v3H8V4zm5 0h2v3h-2V4zM2 8h2v3H2V8zm5 0h2v3H7V8zm5 0h2v3h-2V8zM1 12h2v3H1v-3zm5 0h2v3H6v-3zm5 0h2v3h-2v-3z"/>
+                              </svg>
+                            Node (節點)
+                        </h3>
+                        <p>腳本中的一個步驟。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-lightning-charge-fill icon-svg" viewBox="0 0 16 16">
+                                <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.032z"/>
+                            </svg>
+                            Trigger (觸發器)
+                        </h3>
+                        <p>腳本的開頭。</p>
+                    </div>
+                    <div class="grid-item">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-key-fill icon-svg" viewBox="0 0 16 16">
+                                <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            </svg>
+                            Credentials (憑證)
+                        </h3>
+                        <p>操作其他APP的鑰匙。</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 7: 認識幾個關鍵節點 -->
+        <!-- Slide 7: 詳細解釋 - Workflow -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Workflow (工作流程)</h2>
+                    <p>這是您整個自動化流程的「畫布」。所有的節點都會在這裡被串連起來，形成一個完整的自動化腳本，決定了資料如何從頭到尾流動。</p>
+                </div>
+                <div class="column">
+                    <img src="https://i.postimg.cc/cJq1zbK6/2025-09-093-48-02-ezgif-com-cut.gif" alt="Workflow 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: 詳細解釋 - Node -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Node (節點)</h2>
+                    <p>節點是組成 Workflow 的基本「積木」。每一個節點都代表一個特定的應用或操作，例如「從 Google Sheets 讀取資料」或「發送一則 Slack 訊息」。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入點擊 "+" 新增節點的介面截圖 ]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: 詳細解釋 - Trigger -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Trigger (觸發器)</h2>
+                    <p>觸發器是 Workflow 的「起點」，也是一種特殊的節點。它決定了這個自動化腳本何時、或如何開始執行。例如：「每當收到新的 Webhook 請求時」或「每天早上九點」。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入觸發器節點 (如 Webhook) 的設定畫面截圖 ]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: 詳細解釋 - Credentials -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Credentials (憑證)</h2>
+                    <p>這是授權 n8n 操作您其他應用程式帳號的「鑰匙」。例如，當您要讓 n8n 讀取您的 Google Sheets 時，就需要提供 Google 帳號的憑證，讓 n8n 獲得存取權限。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入 Credentials 管理介面或新增憑證的截圖 ]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: 認識幾個關鍵節點 -->
         <section class="slide">
             <div class="slide-content">
                 <h2>我們的自動化瑞士刀</h2>
@@ -488,33 +597,78 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Slide 12: 詳細解釋 - Webhook -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Webhook</h2>
+                    <p>n8n的「耳朵」，接收來自外部服務的即時訊號，是啟動許多自動化流程的萬用起點。任何支援 Webhook 的應用程式都可以透過它將資料傳送給 n8n。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入 Webhook 節點的 URL 截圖 ]</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 13: 詳細解釋 - Google Chat -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Google Chat</h2>
+                    <p>n8n的「嘴巴」，可以將處理好的資料或任何訊息，即時發送到指定的內部群組或個人。是完成自動化後，最常用的通知工具。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入 Google Chat 節點的訊息設定截圖 ]</p>
+                </div>
+            </div>
+        </section>
 
-        <!-- Slide 8: 公司內部應用案例 1 -->
+        <!-- Slide 14: 詳細解釋 - Cron -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">Cron (排程)</h2>
+                    <p>n8n的「鬧鐘」。當您的流程需要定時自動啟動，而不是被動等待觸發時，Cron 節點就是您的最佳選擇。可以設定每分鐘、每小時、每天或任何自訂的時間來執行。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入 Cron 節點的時間設定截圖 ]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: 詳細解釋 - IF -->
+        <section class="slide">
+            <div class="slide-content columns">
+                <div class="column" style="text-align: left; flex: 0 0 40%;">
+                    <h2 style="font-size: 2.5rem;">IF (條件判斷)</h2>
+                    <p>n8n的「大腦」，它讓您的自動化流程學會思考與判斷。您可以根據收到的資料內容，設定不同的條件，讓流程走向不同的分支，執行不同的後續動作。</p>
+                </div>
+                <div class="column screenshot-placeholder">
+                    <p>[ 此處放入 IF 節點的條件設定截圖 ]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: 公司內部應用案例 1 -->
         <section class="slide">
             <div class="slide-content" style="text-align: left;">
-                <h2>案例分享：AI 客服回覆小助手</h2>
+                <h2>案例分享：營運神醫</h2>
                 <div class="columns">
                     <div class="column">
                         <h3>痛點：</h3>
-                        <p>客服人員需要花費大量時間撰寫重複性高、但又需要微調的回覆。</p>
+                        <p>客服需花費大量時間撰寫重複性高、但又需要微調的回覆，另外還需到各個專案的 Notion 尋找說明解答。</p>
                         <h3>價值：</h3>
                         <p>大幅縮短回覆時間，並確保回覆的專業度與一致性。</p>
                     </div>
                     <div class="column">
-                        <h3>n8n 流程:</h3>
-                        <div class="flowchart" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
-                            <div class="flow-box" style="background-color: #ffe0d9;">觸發 (Webhook)</div>
-                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
-                            <div class="flow-box">處理 (AI + Code)</div>
-                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
-                            <div class="flow-box" style="background-color: #d9f5e5;">動作 (Google Chat)</div>
-                        </div>
+                        <img src="https://i.postimg.cc/s2CNBtHY/2025-09-094-17-09-ezgif-com-video-to-gif-converter.gif" alt="營運神醫 使用畫面" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 9: 公司內部應用案例 2 -->
+        <!-- Slide 17: 公司內部應用案例 2 -->
         <section class="slide">
             <div class="slide-content" style="text-align: left;">
                 <h2>案例分享：24 小時新人教官</h2>
@@ -539,7 +693,7 @@
             </div>
         </section>
 
-        <!-- Slide 10: Live Demo 時間！ -->
+        <!-- Slide 18: Live Demo 時間！ -->
         <section class="slide title-slide" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=2070); background-size: cover;">
             <div class="slide-content">
                 <h1 style="font-size: 5rem; color: white;">Live Demo 時間！</h1>
@@ -548,7 +702,7 @@
             </div>
         </section>
 
-        <!-- Slide 11: 實作步驟概覽 -->
+        <!-- Slide 19: 實作步驟概覽 -->
         <section class="slide">
             <div class="slide-content">
                 <h2>跟著我，兩步完成！</h2>
@@ -567,7 +721,7 @@
             </div>
         </section>
 
-        <!-- Slide 12: 腦力激盪時間 -->
+        <!-- Slide 20: 腦力激盪時間 -->
         <section class="slide">
              <div class="slide-content">
                 <h2>輪到你了！</h2>
@@ -580,7 +734,7 @@
             </div>
         </section>
 
-        <!-- Slide 13: 總結與學習資源 -->
+        <!-- Slide 21: 總結與學習資源 -->
         <section class="slide">
             <div class="slide-content" style="text-align: left;">
                 <h2>今天的重點回顧 & 下一步</h2>
@@ -593,7 +747,7 @@
             </div>
         </section>
 
-        <!-- Slide 14: 感謝聆聽 -->
+        <!-- Slide 22: 感謝聆聽 -->
         <section class="slide title-slide">
             <div class="slide-content">
                 <h1>Thanks!</h1>
