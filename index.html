@@ -64,7 +64,7 @@
         
         .slide-content {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px; /* Increased max-width */
             text-align: center;
         }
         
@@ -75,7 +75,7 @@
         }
         
         .slide h1 {
-            font-size: clamp(2rem, 8vmin, 5rem);
+            font-size: clamp(2.5rem, 9vmin, 6rem); /* Increased size */
             color: var(--dark-grey);
             margin: 0;
         }
@@ -85,33 +85,33 @@
         }
 
         .slide h2 {
-            font-size: clamp(1.5rem, 6vmin, 3.5rem);
+            font-size: clamp(2rem, 7vmin, 4.5rem); /* Increased size */
             color: var(--n8n-orange);
             margin: 0 0 2rem 0;
         }
         
         .slide .subtitle {
-            font-size: clamp(1rem, 4vmin, 2.5rem);
+            font-size: clamp(1.2rem, 5vmin, 3rem); /* Increased size */
             color: var(--n8n-orange);
             margin-top: 1rem;
         }
 
         .slide p {
-            font-size: clamp(1rem, 2.5vmin, 1.5rem);
+            font-size: clamp(1.1rem, 3vmin, 1.8rem); /* Increased size */
             line-height: 1.6;
         }
         
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Increased min-width */
+            gap: 2.5rem; /* Increased gap */
             width: 100%;
             margin-top: 2rem;
         }
 
         .grid-item {
             background-color: var(--light-grey);
-            padding: 2rem;
+            padding: 2.5rem; /* Increased padding */
             border-radius: 10px;
             border-left: 5px solid var(--n8n-orange);
             text-align: left;
@@ -123,17 +123,18 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            font-size: clamp(1.4rem, 4vmin, 2.2rem); /* Increased size */
         }
 
         .grid-item .icon-svg {
-            width: 32px;
-            height: 32px;
+            width: 40px; /* Increased size */
+            height: 40px; /* Increased size */
             flex-shrink: 0;
         }
         
         .columns {
             display: flex;
-            gap: 2rem;
+            gap: 3rem; /* Increased gap */
             width: 100%;
             align-items: center; /* Vertically center columns */
         }
@@ -146,18 +147,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem; /* Increased gap */
             margin-top: 2rem;
             flex-wrap: wrap;
         }
         .flow-box {
             background-color: var(--light-grey);
-            padding: 1rem 2rem;
+            padding: 1.5rem 2.5rem; /* Increased padding */
             border-radius: 8px;
             font-weight: bold;
         }
         .flow-arrow {
-            font-size: 2rem;
+            font-size: 2.5rem; /* Increased size */
             color: var(--n8n-orange);
         }
 
@@ -171,10 +172,10 @@
             background-color: var(--n8n-orange);
             color: var(--white);
             border: none;
-            padding: 10px 15px;
+            padding: 12px 18px; /* Increased size */
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.8rem; /* Increased size */
             margin-left: 10px;
         }
 
@@ -196,14 +197,14 @@
         }
 
         .pulsing-logo {
-            width: 150px;
+            width: 180px; /* Increased size */
             margin-top: 40px;
             animation: pulse 2.5s infinite ease-in-out;
         }
 
         /* --- Animations for Slide 3 --- */
         .anim-icon-wrapper {
-            height: 90px;
+            height: 110px; /* Increased size */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -213,7 +214,7 @@
         /* 1. Copy-Paste Animation */
         .copy-paste-container {
             width: 100%;
-            height: 90px;
+            height: 110px; /* Increased size */
             position: relative;
             margin: 0 auto 10px;
         }
@@ -231,10 +232,10 @@
         .cp-window.right { right: 0; }
         .cp-text-line {
             width: 70%;
-            height: 8px;
+            height: 10px; /* Increased size */
             background-color: var(--copy-paste-bg);
-            border-radius: 4px;
-            margin-bottom: 8px;
+            border-radius: 5px;
+            margin-bottom: 12px; /* Increased size */
         }
         .cp-text-line.short { width: 50%; }
 
@@ -242,9 +243,9 @@
             position: absolute;
             background-color: var(--copy-paste-highlight);
             width: 80%;
-            height: 12px;
-            border-radius: 4px;
-            top: 32px;
+            height: 15px; /* Increased size */
+            border-radius: 5px;
+            top: 45px; /* Adjusted position */
             left: 10px;
         }
         .cp-data.source {
@@ -257,8 +258,8 @@
         
         .cp-cursor {
             position: absolute;
-            width: 25px;
-            height: 25px;
+            width: 30px; /* Increased size */
+            height: 30px; /* Increased size */
             background-image: url('https://i.postimg.cc/Tw4qptS1/unnamed-5-removebg-preview.png');
             background-size: contain;
             background-repeat: no-repeat;
@@ -267,11 +268,11 @@
         }
 
         @keyframes copy-paste-cursor {
-            0%, 100% { top: 50px; left: 50%;}
-            15% { top: 32px; left: 18%;}
-            25%, 35% { top: 32px; left: 18%;}
-            60% { top: 32px; left: 68%;}
-            70%, 90% { top: 32px; left: 68%;}
+            0%, 100% { top: 65px; left: 50%;} /* Adjusted position */
+            15% { top: 45px; left: 18%;} /* Adjusted position */
+            25%, 35% { top: 45px; left: 18%;} /* Adjusted position */
+            60% { top: 45px; left: 68%;} /* Adjusted position */
+            70%, 90% { top: 45px; left: 68%;} /* Adjusted position */
         }
 
         @keyframes copy-source {
@@ -294,7 +295,7 @@
             background-color: var(--chat-bubble-bg);
             padding: 5px 10px;
             border-radius: 15px;
-            font-size: 0.8rem;
+            font-size: 1rem; /* Increased size */
             opacity: 0;
             animation: pop-in 3.5s infinite ease-in-out;
         }
@@ -369,10 +370,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 450px;
+            min-height: 500px; /* Increased size */
             border: 2px dashed #ccc;
             color: #999;
-            font-size: 1.2rem;
+            font-size: 1.5rem; /* Increased size */
             text-align: center;
             padding: 2rem;
         }
@@ -441,7 +442,7 @@
                     </div>
                     <div class="grid-item">
                         <div class="anim-icon-wrapper">
-                            <svg class="anim-icon-clock" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 16 16">
+                            <svg class="anim-icon-clock" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 16 16">
                                 <circle cx="8" cy="8" r="7.5" fill="none" stroke="currentColor" stroke-width="1"/>
                                 <g class="hour-hand">
                                     <rect x="7.5" y="4.5" width="1" height="4" rx="0.5" fill="currentColor"/>
@@ -456,7 +457,7 @@
                     </div>
                     <div class="grid-item">
                         <div class="anim-icon-wrapper">
-                            <svg class="anim-icon-report" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 16 16">
+                            <svg class="anim-icon-report" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 16 16">
                                 <rect class="bar1" x="1" y="6" width="3" height="10" fill="currentColor"/>
                                 <rect class="bar2" x="6" y="2" width="3" height="14" fill="currentColor"/>
                                 <rect class="bar3" x="11" y="9" width="3" height="7" fill="currentColor"/>
