@@ -376,6 +376,16 @@
             font-size: 1.5rem; /* Increased size */
             text-align: center;
             padding: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot-placeholder:hover, .zoom-on-hover:hover {
+            transform: scale(2);
+            z-index: 20;
+        }
+
+        .zoom-on-hover {
+            transition: transform 0.3s ease;
         }
 
 
@@ -497,7 +507,7 @@
                     <div class="grid-item">
                         <h3>
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-diagram-3-fill icon-svg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H11a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 5 7h2.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-3 8A1.5 1.5 0 0 1 4.5 10h1A1.5 1.5 0 0 1 7 11.5v1A1.5 1.5 0 0 1 5.5 14h-1A1.5 1.5 0 0 1 3 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1A1.5 1.5 0 0 1 9 12.5v-1z"/>
+                                <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H11a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h--5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 5 7h2.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-3 8A1.5 1.5 0 0 1 4.5 10h1A1.5 1.5 0 0 1 7 11.5v1A1.5 1.5 0 0 1 5.5 14h-1A1.5 1.5 0 0 1 3 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1A1.5 1.5 0 0 1 9 12.5v-1z"/>
                             </svg>
                             Workflow (工作流程)
                         </h3>
@@ -542,7 +552,7 @@
                     <p>這是您整個自動化流程的「畫布」。所有的節點都會在這裡被串連起來，形成一個完整的自動化腳本，決定了資料如何從頭到尾流動。</p>
                 </div>
                 <div class="column">
-                    <img src="https://i.postimg.cc/cJq1zbK6/2025-09-093-48-02-ezgif-com-cut.gif" alt="Workflow 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;">
+                    <img src="https://i.postimg.cc/cJq1zbK6/2025-09-093-48-02-ezgif-com-cut.gif" alt="Workflow 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -554,8 +564,8 @@
                     <h2 style="font-size: 2.5rem;">Node (節點)</h2>
                     <p>節點是組成 Workflow 的基本「積木」。每一個節點都代表一個特定的應用或操作，例如「從 Google Sheets 讀取資料」或「發送一則 Slack 訊息」。</p>
                 </div>
-                <div class="column screenshot-placeholder">
-                    <p>[ 此處放入點擊 "+" 新增節點的介面截圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/28sx41Tq/2025-09-103-45-25-ezgif-com-video-to-gif-converter.gif" alt="Node 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -567,8 +577,8 @@
                     <h2 style="font-size: 2.5rem;">Trigger (觸發器)</h2>
                     <p>觸發器是 Workflow 的「起點」，也是一種特殊的節點。它決定了這個自動化腳本何時、或如何開始執行。例如：「每當收到新的 Webhook 請求時」或「每天早上九點」。</p>
                 </div>
-                <div class="column screenshot-placeholder">
-                    <p>[ 此處放入觸發器節點 (如 Webhook) 的設定畫面截圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/wMwmTcQr/2025-09-104-54-16-ezgif-com-video-to-gif-converter.gif" alt="Trigger 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -580,7 +590,7 @@
                     <h2 style="font-size: 2.5rem;">Credentials (憑證)</h2>
                     <p>這是授權 n8n 操作您其他應用程式帳號的「鑰匙」。例如，當您要讓 n8n 讀取您的 Google Sheets 時，就需要提供 Google 帳號的憑證，讓 n8n 獲得存取權限。</p>
                 </div>
-                <div class="column screenshot-placeholder">
+                <div class="column screenshot-placeholder zoom-on-hover">
                     <p>[ 此處放入 Credentials 管理介面或新增憑證的截圖 ]</p>
                 </div>
             </div>
@@ -593,8 +603,8 @@
                 <div class="grid-container">
                     <div class="grid-item"><h3>Webhook</h3><p>n8n的「耳朵」，接收即時訊號的萬用起點。</p></div>
                     <div class="grid-item"><h3>Google Chat</h3><p>n8n的「嘴巴」，發送即時通知到內部群組。</p></div>
-                    <div class="grid-item"><h3>Cron (排程)</h3><p>n8n的「鬧鐘」，可以定時自動啟動流程。</p></div>
-                    <div class="grid-item"><h3>IF (條件判斷)</h3><p>n8n的「大腦」，讓流程學會思考與判斷。</p></div>
+                    <div class="grid-item"><h3>Schedule (排程)</h3><p>n8n的「鬧鐘」，可以定時自動啟動流程。</p></div>
+                    <div class="grid-item"><h3>HTTP Request</h3><p>n8n的「雙手」，主動抓取或傳送資料到任何API。</p></div>
                 </div>
             </div>
         </section>
@@ -606,7 +616,7 @@
                     <h2 style="font-size: 2.5rem;">Webhook</h2>
                     <p>n8n的「耳朵」，接收來自外部服務的即時訊號，是啟動許多自動化流程的萬用起點。任何支援 Webhook 的應用程式都可以透過它將資料傳送給 n8n。</p>
                 </div>
-                <div class="column screenshot-placeholder">
+                <div class="column screenshot-placeholder zoom-on-hover">
                     <p>[ 此處放入 Webhook 節點的 URL 截圖 ]</p>
                 </div>
             </div>
@@ -619,34 +629,34 @@
                     <h2 style="font-size: 2.5rem;">Google Chat</h2>
                     <p>n8n的「嘴巴」，可以將處理好的資料或任何訊息，即時發送到指定的內部群組或個人。是完成自動化後，最常用的通知工具。</p>
                 </div>
-                <div class="column screenshot-placeholder">
+                <div class="column screenshot-placeholder zoom-on-hover">
                     <p>[ 此處放入 Google Chat 節點的訊息設定截圖 ]</p>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 14: 詳細解釋 - Cron -->
+        <!-- Slide 14: 詳細解釋 - Schedule -->
         <section class="slide">
             <div class="slide-content columns">
                 <div class="column" style="text-align: left; flex: 0 0 40%;">
-                    <h2 style="font-size: 2.5rem;">Cron (排程)</h2>
-                    <p>n8n的「鬧鐘」。當您的流程需要定時自動啟動，而不是被動等待觸發時，Cron 節點就是您的最佳選擇。可以設定每分鐘、每小時、每天或任何自訂的時間來執行。</p>
+                    <h2 style="font-size: 2.5rem;">Schedule (排程)</h2>
+                    <p>n8n的「鬧鐘」。當您的流程需要定時自動啟動，而不是被動等待觸發時，Schedule 節點就是您的最佳選擇。可以設定每分鐘、每小時、每天或任何自訂的時間來執行。</p>
                 </div>
-                <div class="column screenshot-placeholder">
-                    <p>[ 此處放入 Cron 節點的時間設定截圖 ]</p>
+                <div class="column screenshot-placeholder zoom-on-hover">
+                    <p>[ 此處放入 Schedule 節點的時間設定截圖 ]</p>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 15: 詳細解釋 - IF -->
+        <!-- Slide 15: 詳細解釋 - HTTP Request -->
         <section class="slide">
             <div class="slide-content columns">
                 <div class="column" style="text-align: left; flex: 0 0 40%;">
-                    <h2 style="font-size: 2.5rem;">IF (條件判斷)</h2>
-                    <p>n8n的「大腦」，它讓您的自動化流程學會思考與判斷。您可以根據收到的資料內容，設定不同的條件，讓流程走向不同的分支，執行不同的後續動作。</p>
+                    <h2 style="font-size: 2.5rem;">HTTP Request</h2>
+                    <p>這是 n8n 中最萬用的節點之一。它讓您的自動化流程可以主動向任何網站或 API 發出請求來抓取資料 (GET)，或是將資料傳送過去 (POST)。我們今天實作的範例就會用到它！</p>
                 </div>
-                <div class="column screenshot-placeholder">
-                    <p>[ 此處放入 IF 節點的條件設定截圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/hvjRKzTP/2025-09-102-40-07-ezgif-com-video-to-gif-converter.gif" alt="HTTP Request 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -663,7 +673,7 @@
                         <p>大幅縮短回覆時間，並確保回覆的專業度與一致性。</p>
                     </div>
                     <div class="column">
-                        <img src="https://i.postimg.cc/s2CNBtHY/2025-09-094-17-09-ezgif-com-video-to-gif-converter.gif" alt="營運神醫 使用畫面" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;">
+                        <img src="https://i.postimg.cc/s2CNBtHY/2025-09-094-17-09-ezgif-com-video-to-gif-converter.gif" alt="營運神醫 使用畫面" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                     </div>
                 </div>
             </div>
