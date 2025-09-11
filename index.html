@@ -507,7 +507,7 @@
                     <div class="grid-item">
                         <h3>
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-diagram-3-fill icon-svg" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H11a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h--5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 5 7h2.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-3 8A1.5 1.5 0 0 1 4.5 10h1A1.5 1.5 0 0 1 7 11.5v1A1.5 1.5 0 0 1 5.5 14h-1A1.5 1.5 0 0 1 3 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1A1.5 1.5 0 0 1 9 12.5v-1z"/>
+                                <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H11a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 5 7h2.5V6A1.5 1.5 0 0 1 6 4.5v-1zm-3 8A1.5 1.5 0 0 1 4.5 10h1A1.5 1.5 0 0 1 7 11.5v1A1.5 1.5 0 0 1 5.5 14h-1A1.5 1.5 0 0 1 3 12.5v-1zm6 0a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1A1.5 1.5 0 0 1 9 12.5v-1z"/>
                             </svg>
                             Workflow (工作流程)
                         </h3>
@@ -533,12 +533,12 @@
                     </div>
                     <div class="grid-item">
                         <h3>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-key-fill icon-svg" viewBox="0 0 16 16">
-                                <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-play-fill icon-svg" viewBox="0 0 16 16">
+                                <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
                             </svg>
-                            Credentials (憑證)
+                            Execute (執行)
                         </h3>
-                        <p>操作其他APP的鑰匙。</p>
+                        <p>運行單一節點或整個流程來測試結果。</p>
                     </div>
                 </div>
             </div>
@@ -552,7 +552,7 @@
                     <p>這是您整個自動化流程的「畫布」。所有的節點都會在這裡被串連起來，形成一個完整的自動化腳本，決定了資料如何從頭到尾流動。</p>
                 </div>
                 <div class="column">
-                    <img src="https://i.postimg.cc/cJq1zbK6/2025-09-093-48-02-ezgif-com-cut.gif" alt="Workflow 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
+                    <img src="https://i.postimg.cc/TwvvyVHt/2025-09-104-24-44-ezgif-com-video-to-gif-converter.gif" alt="Workflow 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -582,16 +582,16 @@
                 </div>
             </div>
         </section>
-
-        <!-- Slide 10: 詳細解釋 - Credentials -->
+        
+        <!-- Slide 10: 詳細解釋 - Expression -->
         <section class="slide">
             <div class="slide-content columns">
                 <div class="column" style="text-align: left; flex: 0 0 40%;">
-                    <h2 style="font-size: 2.5rem;">Credentials (憑證)</h2>
-                    <p>這是授權 n8n 操作您其他應用程式帳號的「鑰匙」。例如，當您要讓 n8n 讀取您的 Google Sheets 時，就需要提供 Google 帳號的憑證，讓 n8n 獲得存取權限。</p>
+                    <h2 style="font-size: 2.5rem;">Expression (表達式)</h2>
+                    <p>這是 n8n 的「魔法語法」。透過 `{{ ... }}` 這樣的格式，您可以輕鬆地從上一個節點抓取資料，並將它用在現在的節點中。這是串連不同節點、讓資料流動起來的關鍵！</p>
                 </div>
                 <div class="column screenshot-placeholder zoom-on-hover">
-                    <p>[ 此處放入 Credentials 管理介面或新增憑證的截圖 ]</p>
+                    <p>[ 此處放入 Expression 編輯器的示意圖 ]</p>
                 </div>
             </div>
         </section>
@@ -616,8 +616,8 @@
                     <h2 style="font-size: 2.5rem;">Webhook</h2>
                     <p>n8n的「耳朵」，接收來自外部服務的即時訊號，是啟動許多自動化流程的萬用起點。任何支援 Webhook 的應用程式都可以透過它將資料傳送給 n8n。</p>
                 </div>
-                <div class="column screenshot-placeholder zoom-on-hover">
-                    <p>[ 此處放入 Webhook 節點的 URL 截圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/VNQSBfgD/webhook.png" alt="Webhook 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -629,8 +629,8 @@
                     <h2 style="font-size: 2.5rem;">Google Chat</h2>
                     <p>n8n的「嘴巴」，可以將處理好的資料或任何訊息，即時發送到指定的內部群組或個人。是完成自動化後，最常用的通知工具。</p>
                 </div>
-                <div class="column screenshot-placeholder zoom-on-hover">
-                    <p>[ 此處放入 Google Chat 節點的訊息設定截圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/sXKvrprN/google-chat.png" alt="Google Chat 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -642,8 +642,8 @@
                     <h2 style="font-size: 2.5rem;">Schedule (排程)</h2>
                     <p>n8n的「鬧鐘」。當您的流程需要定時自動啟動，而不是被動等待觸發時，Schedule 節點就是您的最佳選擇。可以設定每分鐘、每小時、每天或任何自訂的時間來執行。</p>
                 </div>
-                <div class="column screenshot-placeholder zoom-on-hover">
-                    <p>[ 此處放入 Schedule 節點的時間設定截圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/qMWg4JP4/schedule.png" alt="Schedule 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -686,19 +686,12 @@
                  <div class="columns">
                     <div class="column">
                         <h3>痛點：</h3>
-                        <p>新進同仁有大量關於內部流程的問題，常需中斷資深同仁的工作來詢問。</p>
+                        <p>新進同仁有大量關於內部流程的問題，需在龐大的 Notion 中尋找答案。</p>
                         <h3>價值：</h3>
-                        <p>提供新人即時的幫助，同時解放資深同仁的時間，讓知識真正流通起來。</p>
+                        <p>提供新人即時的幫助，同時解放尋找的時間，讓知識真正流通起來。</p>
                     </div>
                     <div class="column">
-                        <h3>n8n 流程:</h3>
-                        <div class="flowchart" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
-                            <div class="flow-box" style="background-color: #ffe0d9;">觸發 (Google Chat)</div>
-                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
-                            <div class="flow-box">處理 (AI + 知識庫)</div>
-                            <div class="flow-arrow" style="transform: rotate(90deg);">→</div>
-                            <div class="flow-box" style="background-color: #d9f5e5;">動作 (Google Chat)</div>
-                        </div>
+                        <img src="https://i.postimg.cc/wT29M6yS/2025-09-111-16-17-ezgif-com-video-to-gif-converter.gif" alt="新人教官 使用畫面" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                     </div>
                 </div>
             </div>
@@ -708,7 +701,7 @@
         <section class="slide title-slide" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=2070); background-size: cover;">
             <div class="slide-content">
                 <h1 style="font-size: 5rem; color: white;">Live Demo 時間！</h1>
-                <p class="subtitle" style="color:white; font-size: 2rem;">實作目標：打造一個萬用 Webhook 通知器</p>
+                <p class="subtitle" style="color:white; font-size: 2rem;">實作目標：打造一個 google chat 名言產生器</p>
                 <h2 style="color: white;">準備好了嗎？ Let's build!</h2>
             </div>
         </section>
@@ -716,16 +709,21 @@
         <!-- Slide 19: 實作步驟概覽 -->
         <section class="slide">
             <div class="slide-content">
-                <h2>跟著我，兩步完成！</h2>
+                <h2>跟著我，三步完成！</h2>
                 <div class="flowchart">
                     <div class="flow-box" style="padding: 2rem;">
                         <h3>步驟一</h3>
-                        <p>設定觸發器 (Webhook)</p>
+                        <p>設定排程</p>
                     </div>
                     <div class="flow-arrow">➡️</div>
                     <div class="flow-box" style="padding: 2rem;">
                         <h3>步驟二</h3>
-                        <p>建立通知動作 (Google Chat)</p>
+                        <p>API 抓取名言</p>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-box" style="padding: 2rem;">
+                        <h3>步驟三</h3>
+                        <p>google chat 傳送通知</p>
                     </div>
                 </div>
                 <p style="margin-top: 3rem; color: #777;">（接下來請切換到 n8n 操作介面...）</p>
@@ -736,11 +734,11 @@
         <section class="slide">
              <div class="slide-content">
                 <h2>輪到你了！</h2>
-                <p class="subtitle" style="font-size: 2rem;">這個「Webhook 通知器」還能用在哪裡？</p>
+                <p class="subtitle" style="font-size: 2rem;">這個「自動通知器」還能如何應用？</p>
                 <div class="grid-container" style="text-align: left;">
-                    <div class="grid-item"><p>伺服器狀態異常時，自動通知維運團隊？</p></div>
-                    <div class="grid-item"><p>電子商務網站有新訂單時，自動通知業務團隊？</p></div>
-                    <div class="grid-item"><p>專案管理工具有新任務完成時，自動在專案頻道慶祝？</p></div>
+                    <div class="grid-item"><p>將 API 換成每日天氣、空氣品質或股市資訊，打造團隊專屬的資訊看板？</p></div>
+                    <div class="grid-item"><p>串接公司內部系統的 API，在訂單、用戶數達到里程碑時，即時在 Google Chat 慶祝？</p></div>
+                    <div class="grid-item"><p>加上 IF 節點判斷庫存數量。例如：如果庫存 < 100 就發出紅色警報？</p></div>
                 </div>
             </div>
         </section>
@@ -752,8 +750,8 @@
                 <div class="grid-container" style="grid-template-columns: 1fr;">
                     <div class="grid-item"><p><b>自動化思維：</b>開始觀察自己工作中有哪些「固定模式」的重複任務。</p></div>
                     <div class="grid-item"><p><b>萬用組合：</b>Webhook + Google Chat 是打通內外部資訊的黃金組合。</p></div>
-                    <div class="grid-item"><p><b>內部交流：</b>歡迎在公司 #n8n-heroes 頻道分享你的自動化點子或成品！</p></div>
-                    <div class="grid-item"><p><b>官方文件：</b>docs.n8n.io 是你最好的朋友。</p></div>
+                    <div class="grid-item"><p><b>內部交流：</b>歡迎在 AI 實驗室 分享你的自動化點子或成品！</p></div>
+                    <div class="grid-item"><p><b>AI：</b>Gemeni、ChatGPT 是你最好的朋友。</p></div>
                 </div>
             </div>
         </section>
