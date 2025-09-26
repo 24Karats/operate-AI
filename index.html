@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>n8n 營運部 AI 分享會</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
 
         :root {
             --n8n-orange: #FF4F24;
@@ -124,6 +124,12 @@
             align-items: center;
             gap: 0.8rem;
             font-size: clamp(1.4rem, 4vmin, 2.2rem); /* Increased size */
+        }
+
+        .grid-item h4 {
+             font-size: clamp(1.2rem, 3vmin, 1.8rem);
+             text-align: center;
+             margin-bottom: 0.5rem;
         }
 
         .grid-item .icon-svg {
@@ -387,6 +393,82 @@
         .zoom-on-hover {
             transition: transform 0.3s ease;
         }
+        
+        /* Launch Slide Style */
+        .slide.launch-slide {
+            background: radial-gradient(circle, #444 0%, #111 100%);
+            color: var(--white);
+            overflow: hidden;
+        }
+        .launch-image {
+            max-height: 45vh;
+            filter: drop-shadow(0 10px 30px rgba(255, 79, 36, 0.3));
+            opacity: 0;
+            transform: translateY(30px);
+            animation: float-in 1s forwards cubic-bezier(0.25, 1, 0.5, 1);
+            animation-delay: 0.3s;
+        }
+        .launch-slide h1, .launch-slide p {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: float-in 0.8s forwards;
+            font-weight: 900;
+        }
+        .launch-slide h1 {
+            font-size: clamp(3rem, 12vmin, 8rem) !important;
+            color: var(--white);
+            animation-delay: 1.2s;
+            margin: 1rem 0;
+        }
+        .launch-slide .launch-tagline {
+            font-size: clamp(1.5rem, 5vmin, 3rem) !important;
+            color: #ccc;
+            animation-delay: 1.5s;
+            font-weight: 400;
+        }
+
+        @keyframes float-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Spotlight Animations */
+        .launch-slide::before,
+        .launch-slide::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            width: 500px;
+            height: 150%;
+            background: linear-gradient(to bottom, rgba(255, 255, 240, 0.15), transparent 50%);
+            opacity: 0;
+        }
+
+        .launch-slide::before {
+            left: 0;
+            transform-origin: top left;
+            animation: spotlight-left 1.5s forwards cubic-bezier(0.25, 1, 0.5, 1);
+            animation-delay: 0.5s;
+        }
+
+        .launch-slide::after {
+            right: 0;
+            transform-origin: top right;
+            animation: spotlight-right 1.5s forwards cubic-bezier(0.25, 1, 0.5, 1);
+            animation-delay: 0.8s;
+        }
+
+        @keyframes spotlight-left {
+            from { opacity: 0; transform: rotate(45deg); }
+            to { opacity: 1; transform: rotate(-15deg); }
+        }
+
+        @keyframes spotlight-right {
+            from { opacity: 0; transform: rotate(-45deg); }
+            to { opacity: 1; transform: rotate(15deg); }
+        }
 
 
     </style>
@@ -583,15 +665,15 @@
             </div>
         </section>
         
-        <!-- Slide 10: 詳細解釋 - Expression -->
+        <!-- Slide 10: 詳細解釋 - Execute -->
         <section class="slide">
             <div class="slide-content columns">
                 <div class="column" style="text-align: left; flex: 0 0 40%;">
-                    <h2 style="font-size: 2.5rem;">Expression (表達式)</h2>
-                    <p>這是 n8n 的「魔法語法」。透過 `{{ ... }}` 這樣的格式，您可以輕鬆地從上一個節點抓取資料，並將它用在現在的節點中。這是串連不同節點、讓資料流動起來的關鍵！</p>
+                    <h2 style="font-size: 2.5rem;">Execute (執行)</h2>
+                    <p>這是 n8n 中最重要的測試與除錯功能。每當您完成一個節點的設定，都可以點擊「Execute Step」按鈕來立即運行它，並在右側的 Output 視窗查看結果，確保資料如您預期地被處理。</p>
                 </div>
-                <div class="column screenshot-placeholder zoom-on-hover">
-                    <p>[ 此處放入 Expression 編輯器的示意圖 ]</p>
+                <div class="column">
+                    <img src="https://i.postimg.cc/9QjSfkyw/2025-09-255-38-19-ezgif-com-video-to-gif-converter.gif" alt="Execute 示意圖" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
                 </div>
             </div>
         </section>
@@ -697,7 +779,69 @@
             </div>
         </section>
 
-        <!-- Slide 18: Live Demo 時間！ -->
+        <!-- Slide 18: 新人教官 2.0 登場 -->
+        <section class="slide launch-slide">
+            <div class="slide-content">
+                <img src="https://i.postimg.cc/m2X8GLQ8/generated-image-1758262660252-removebg-preview.png" alt="新人教官 2.0" class="launch-image">
+                <h1>新人教官 2.0</h1>
+                <p class="launch-tagline">智慧，全面進化。現已發佈。</p>
+            </div>
+        </section>
+        
+        <!-- Slide 19: 案例分享：新人教官 2.0 (對比) -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2>新人教官 1.0 vs 2.0 速度比較</h2>
+                <div class="grid-container" style="grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; margin-top: 1rem;">
+                    <div style="text-align: center;">
+                        <h4>1.0 關鍵字比對 (較慢)</h4>
+                        <img src="https://i.postimg.cc/q7J674J5/2025-09-184-14-24-ezgif-com-video-to-gif-converter.gif" alt="新人教官 1.0" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
+                    </div>
+                    <div style="text-align: center;">
+                        <h4>2.0 向量搜尋 (更快、更準)</h4>
+                        <img src="https://i.postimg.cc/dV81M1Cy/2025-09-254-13-13-ezgif-com-video-to-gif-converter.gif" alt="新人教官 2.0" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: 案例分享：新人教官 2.0 (技術說明) -->
+        <section class="slide">
+            <div class="slide-content" style="text-align: left;">
+                <h2>案例分享：新人教官 2.0 技術核心</h2>
+                <div class="columns">
+                    <div class="column">
+                        <h3>痛點 (1.0 版本):</h3>
+                        <p>舊版教官使用傳統的「關鍵字比對」搜尋，不僅速度較慢，而且只要提問的用詞和文件標題不同，就常常找不到答案。</p>
+                    </div>
+                    <div class="column">
+                        <h3>價值 (2.0 版本):</h3>
+                        <p>新版導入 **RAG (Retrieval-Augmented Generation) 向量檢索生成** 技術。它不再是死板地比對文字，而是能真正「理解」問題的語意，先從知識庫中找出最相關的幾份文件，再交給 AI 總結出最精準的答案。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Slide 21: 公司內部應用案例 3 -->
+        <section class="slide">
+            <div class="slide-content" style="text-align: left;">
+                <h2>案例分享：MIXXIN 魔法師</h2>
+                <div class="columns">
+                    <div class="column">
+                        <h3>痛點：</h3>
+                        <p>行銷或設計同仁需要快速產出高品質的視覺素材，但手動設計耗時，而直接使用 AI 繪圖又需要複雜的 Prompt 技巧，門檻較高。</p>
+                        <h3>價值：</h3>
+                        <p>提供一個整合了 100+ 優質 Prompt 範例的簡易前端介面，任何人都能一鍵生成風格獨特的圖片。n8n 在其中扮演了穩定、安全的後端，負責接收前端請求並呼叫 Gemini 圖片生成模型。</p>
+                    </div>
+                    <div class="column">
+                        <img src="https://i.postimg.cc/yd3b2Xzs/2025-09-252-57-11-ezgif-com-video-to-gif-converter.gif" alt="MIXXIN 魔法師 使用畫面" style="width: 100%; border-radius: 10px; border: 1px solid #ddd;" class="zoom-on-hover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 22: Live Demo 時間！ -->
         <section class="slide title-slide" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=2070); background-size: cover;">
             <div class="slide-content">
                 <h1 style="font-size: 5rem; color: white;">Live Demo 時間！</h1>
@@ -706,7 +850,7 @@
             </div>
         </section>
 
-        <!-- Slide 19: 實作步驟概覽 -->
+        <!-- Slide 23: 實作步驟概覽 -->
         <section class="slide">
             <div class="slide-content">
                 <h2>跟著我，三步完成！</h2>
@@ -730,7 +874,7 @@
             </div>
         </section>
 
-        <!-- Slide 20: 腦力激盪時間 -->
+        <!-- Slide 24: 腦力激盪時間 -->
         <section class="slide">
              <div class="slide-content">
                 <h2>輪到你了！</h2>
@@ -743,7 +887,7 @@
             </div>
         </section>
 
-        <!-- Slide 21: 總結與學習資源 -->
+        <!-- Slide 25: 總結與學習資源 -->
         <section class="slide">
             <div class="slide-content" style="text-align: left;">
                 <h2>今天的重點回顧 & 下一步</h2>
@@ -756,12 +900,11 @@
             </div>
         </section>
 
-        <!-- Slide 22: 感謝聆聽 -->
+        <!-- Slide 26: 感謝聆聽 -->
         <section class="slide title-slide">
             <div class="slide-content">
                 <h1>Thanks!</h1>
-                <p class="subtitle" style="font-size: 2.5rem;">Automate the boring, Innovate the future.</p>
-                <p style="margin-top: 4rem;">您可以放上您的姓名或聯絡方式</p>
+                <p style="margin-top: 4rem; font-size: 2.5rem;">營運部</p>
             </div>
         </section>
 
